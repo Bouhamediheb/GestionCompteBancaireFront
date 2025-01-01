@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4">{{ isEditMode ? 'Edit' : 'Create' }} Client</h1>
-    <form @submit.prevent="submitForm" class="border p-4 rounded shadow-sm">
+    <h1 class="mb-4">Edit Client</h1>
+    <form @submit.prevent="updateClient" class="border p-4 rounded shadow-sm">
       
       <div class="mb-3">
         <label for="cin" class="form-label">CIN:</label>
@@ -9,8 +9,8 @@
           v-model="client.cin"
           id="cin"
           class="form-control"
-          :disabled="isEditMode"
-          placeholder="Enter Client CIN"
+          :disabled="true"
+          placeholder="Client CIN"
           required
         />
       </div>
@@ -38,53 +38,50 @@
       </div>
 
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">
-          {{ isEditMode ? 'Update Client' : 'Create Client' }}
-        </button>
+        <button type="submit" class="btn btn-primary">Update Client</button>
       </div>
     </form>
   </div>
 </template>
 
-  <script>
-  import clientService from '../services/clientService';
-  
-  export default {
-    data() {
-      return {
-        client: {
-          cin: '',
-          nom: '',
-          prenom: '',
-        },
-        isEditMode: false,
-      };
-    },
-    created() {
-      const id = this.$route.params.id;
-      if (id) {
-        this.isEditMode = true;
-        this.fetchClient(id);
-      }
-    },
-    methods: {
-      fetchClient(id) {
-        clientService.findById(id).then(response => {
+<script>
+import clientService from '../services/clientService';
+
+export default {
+  data() {
+    return {
+      client: {
+        cin: '',
+        nom: '',
+        prenom: '',
+      },
+    };
+  },
+  created() {
+    const id = this.$route.params.id;
+    if (id) {
+      this.fetchClient(id);
+    }
+  },
+  methods: {
+    fetchClient(id) {
+      clientService.findById(id)
+        .then(response => {
           this.client = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching client:', error);
         });
-      },
-      submitForm() {
-        if (this.isEditMode) {
-          clientService.update(this.client.id, this.client).then(() => {
-            this.$router.push({ name: 'ListClients' });
-          });
-        } else {
-          clientService.save(this.client).then(() => {
-            this.$router.push({ name: 'ListClients' });
-          });
-        }
-      },
     },
-  };
-  </script>
-  
+    updateClient() {
+      clientService.update(this.client.id, this.client)
+        .then(() => {
+          this.$router.push({ name: 'ListClients' });
+        })
+        .catch(error => {
+          console.error('Error updating client:', error);
+        });
+    },
+  },
+};
+</script>

@@ -14,7 +14,7 @@
             <strong>RIB:</strong> {{ compte.rib }}
           </div>
           <div>
-            <strong>Solde:</strong> {{ compte.solde }}
+            <strong>Solde:</strong> {{ compte.solde }} TND
           </div>
         </li>
       </ul>

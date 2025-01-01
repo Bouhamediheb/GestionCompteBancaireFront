@@ -16,7 +16,7 @@
         <div>
           <strong>RIB:</strong> {{ compte.rib }}
           <br />
-          <strong>Solde:</strong> {{ compte.solde }} €
+          <strong>Solde:</strong> {{ compte.solde }} TND
           <br />
           <strong>Client:</strong> 
           {{ compte.client?.nom || 'Unknown' }} 
@@ -58,7 +58,7 @@ export default {
     return {
       comptes: [], 
       searchKey: '', 
-      compteToDelete: null, // Temporarily holds the RIB of the account to delete
+      compteToDelete: null, 
     };
   },
   computed: {
@@ -88,21 +88,21 @@ export default {
         });
     },
     confirmDelete(rib) {
-      this.compteToDelete = rib; // Store the RIB of the account to delete
-      this.$refs.confirmDeleteModal.open(); // Open the confirmation modal
+      this.compteToDelete = rib;
+      this.$refs.confirmDeleteModal.open();
     },
     deleteConfirmed() {
       if (!this.compteToDelete) return;
 
       compteService.delete(this.compteToDelete)
         .then(() => {
-          this.fetchComptes(); // Reload the accounts after deletion
-          this.$refs.confirmDeleteModal.close(); // Close the confirmation modal
-          this.compteToDelete = null; // Clear the temporary RIB
+          this.fetchComptes();
+          this.$refs.confirmDeleteModal.close(); 
+          this.compteToDelete = null;
         })
         .catch(error => {
           console.error('Error deleting account:', error);
-          this.$refs.confirmDeleteModal.close(); // Close the modal even on error
+          this.$refs.confirmDeleteModal.close(); 
         });
     },
     editCompte(id) {

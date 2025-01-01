@@ -70,7 +70,7 @@
           });
       },
       addNewClient() {
-        this.$router.push({ name: 'EditClient', params: { id: null } });
+        this.$router.push({ name: 'AddClient' });
       },
       editClient(id) {
         this.$router.push({ name: 'EditClient', params: { id } });
