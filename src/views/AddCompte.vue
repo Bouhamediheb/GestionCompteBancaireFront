@@ -3,7 +3,6 @@
       <h1 class="mb-4">Créer un compte bancaire pour un client</h1>
       <form @submit.prevent="createCompte" class="border p-4 rounded shadow-sm">
         
-        <!-- Solde Input -->
         <div class="mb-3">
           <label for="solde" class="form-label">Solde:</label>
           <input
@@ -16,7 +15,6 @@
           />
         </div>
   
-        <!-- Client Selection -->
         <div class="mb-3">
           <label for="client" class="form-label">Sélectionner un client:</label>
           <select v-model="compte.clientId" class="form-select" id="client" required>
@@ -26,7 +24,6 @@
           </select>
         </div>
   
-        <!-- Submit Button -->
         <div class="text-center">
           <button type="submit" class="btn btn-primary">Ajouter le compte</button>
         </div>
@@ -43,41 +40,37 @@
       return {
         compte: {
           solde: 0,
-          clientId: '',  // Use clientId to link to the client
+          clientId: '', 
         },
-        clients: [],  // List of clients to select from
+        clients: [], 
       };
     },
     created() {
       console.log('Component created');
-      this.fetchClients();  // Fetch the list of clients when the component is created
+      this.fetchClients(); 
     },
     methods: {
-      // Fetch the list of clients from the API
       fetchClients() {
         clientService.findAll()
           .then(response => {
-            this.clients = response;  // Set the response to the clients array
-            console.log('Clients loaded:', this.clients);  // Debug: check if clients are loaded properly
+            this.clients = response; 
+            console.log('Clients loaded:', this.clients); 
           })
           .catch(error => {
-            console.error('Error fetching clients:', error);  // Log any error
+            console.error('Error fetching clients:', error); 
           });
       },
   
-      // Create a new compte and link it to a client
       createCompte() {
-  const selectedClient = this.clients.find(client => client.id === this.compte.clientId);  // Get full client object from selected ID
- 
+  const selectedClient = this.clients.find(client => client.id === this.compte.clientId); 
   const newCompte = {
     solde: this.compte.solde,
-    client: selectedClient,  // Pass the full client object
+    client: selectedClient,  
   };
 
-  // Call the backend to save the compte
   compteService.save(newCompte)
     .then(() => {
-      this.$router.push({ name: 'ListComptes' });  // Navigate back to the list of comptes
+      this.$router.push({ name: 'ListComptes' }); 
     })
     .catch(error => {
       console.error('Error creating compte:', error);

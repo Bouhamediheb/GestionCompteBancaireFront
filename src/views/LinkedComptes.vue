@@ -2,14 +2,12 @@
     <div class="container mt-4">
       <h1 class="mb-4">Comptes Linked to Client</h1>
       
-      <!-- Back Button -->
       <div class="mb-3">
         <button @click="$router.push({ name: 'ListClients' })" class="btn btn-secondary">
           Back to Clients
         </button>
       </div>
   
-      <!-- List of Comptes -->
       <ul v-if="comptes.length" class="list-group">
         <li v-for="compte in comptes" :key="compte.rib" class="list-group-item d-flex justify-content-between align-items-center">
           <div>
@@ -21,34 +19,38 @@
         </li>
       </ul>
       
-      <!-- No Comptes Message -->
       <p v-else class="text-center mt-4">No comptes linked to this client.</p>
     </div>
 </template>
 
 <script>
 import compteService from '../services/compteService';
+import clientService from '../services/clientService';
 
 export default {
   data() {
     return {
-      comptes: [], // List of comptes linked to the client
+      comptes: [], 
     };
   },
   created() {
-    const clientId = this.$route.params.id; // Use the id from route parameters, not cin
-    this.fetchComptes(clientId);  // Fetch comptes based on client id
+    const clientId = this.$route.params.id; 
+    this.fetchComptes(clientId); 
   },
   methods: {
-    fetchComptes(id) {
-      compteService.findByClientId(id)
-        .then(response => {
-          this.comptes = response;  // Assign the returned data to comptes
-        })
-        .catch(error => {
-          console.error('Error fetching comptes:', error);  // Handle errors
-        });
+    fetchComptes(clientId) {
+  clientService.findLinkedComptes(clientId) 
+    .then(response => {
+      this.comptes = response.data; 
+      console.log('Fetched comptes:', this.comptes);  
+    })
+    .catch(error => {
+      console.error('Error fetching comptes:', error); 
+    });
+},
+
     },
-  },
+
+  
 };
 </script>

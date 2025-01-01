@@ -11,18 +11,23 @@ export default {
   findAll() {
     return apiClient.get();
   },
-  findByClientCin(clientCin) {
-    return apiClient.get(`/client/${clientCin}`); // Adjust endpoint if needed
+  findById(id) {
+    return apiClient.get(`/${id}`);
   },
   save(compte) {
     return apiClient.post('/saveCompte', compte, {
       headers: {
-        'Content-Type': 'application/json',  // Ensure this header is set
+        'Content-Type': 'application/json',
       },
     });
   },
-  
+  update(rib, compte) {
+    return apiClient.put(`/${rib}`, compte);
+  },
   delete(rib) {
     return apiClient.delete(`/${rib}`);
+  },
+  update(rib, compte) {
+    return apiClient.put(`/${rib}`, compte);
   },
 };

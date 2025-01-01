@@ -1,84 +1,113 @@
 <template>
   <div class="container mt-4">
-    <!-- Header -->
     <h1 class="mb-4">Accounts</h1>
     
-    <!-- Search Bar -->
     <div class="mb-4">
       <input
         v-model="searchKey"
         class="form-control"
         type="text"
-        placeholder="Search accounts by RIB or client name"
-        @input="searchAccounts"
+        placeholder="Search accounts by client name"
       />
     </div>
     
-    <!-- Accounts List -->
-    <ul class="list-group" v-if="comptes.length">
-      <li v-for="compte in comptes" :key="compte.rib" class="list-group-item d-flex justify-content-between align-items-center">
+    <ul class="list-group" v-if="filteredComptes.length">
+      <li v-for="compte in filteredComptes" :key="compte.rib" class="list-group-item d-flex justify-content-between align-items-center">
         <div>
           <strong>RIB:</strong> {{ compte.rib }}
           <br />
           <strong>Solde:</strong> {{ compte.solde }} €
           <br />
-          <strong>Client:</strong> {{ compte.client.nom }} {{ compte.client.prenom }}
-          (CIN: {{ compte.client.cin }})
+          <strong>Client:</strong> 
+          {{ compte.client?.nom || 'Unknown' }} 
+          {{ compte.client?.prenom || 'Unknown' }} 
+          (CIN: {{ compte.client?.cin || 'N/A' }})
         </div>
         
-        <!-- Action Buttons -->
         <div>
           <button @click="editCompte(compte.rib)" class="btn btn-warning btn-sm me-2">Edit</button>
-          <button @click="deleteCompte(compte.rib)" class="btn btn-danger btn-sm me-2">Delete</button>
+          <button @click="confirmDelete(compte.rib)" class="btn btn-danger btn-sm me-2">Delete</button>
         </div>
       </li>
     </ul>
     
-    <!-- No Accounts Message -->
     <p v-else class="text-center mt-4">No accounts found.</p>
+    
+    <!-- Confirmation Modal -->
+    <sweet-modal ref="confirmDeleteModal" :blocking="true">
+      <div class="text-center">
+        <h5>Are you sure you want to delete this account?</h5>
+        <div class="mt-3">
+          <button @click="deleteConfirmed" class="btn btn-danger me-2">Yes, Delete</button>
+          <button @click="$refs.confirmDeleteModal.close()" class="btn btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </sweet-modal>
   </div>
 </template>
 
-
 <script>
 import compteService from '../services/compteService';
+import { SweetModal } from 'sweet-modal-vue-3';
 
 export default {
+  components: {
+    SweetModal,
+  },
   data() {
     return {
-      comptes: [],
-      searchKey: '',
+      comptes: [], 
+      searchKey: '', 
+      compteToDelete: null, // Temporarily holds the RIB of the account to delete
     };
   },
+  computed: {
+    filteredComptes() {
+      const key = this.searchKey.toLowerCase();
+      return this.comptes.filter(compte => {
+        const rib = typeof compte.rib === 'string' ? compte.rib.toLowerCase() : '';
+        const clientName = typeof compte.client?.nom === 'string' && typeof compte.client?.prenom === 'string'
+          ? `${compte.client.nom} ${compte.client.prenom}`.toLowerCase()
+          : '';
+        return rib.includes(key) || clientName.includes(key);
+      });
+    },
+  },
   created() {
-    this.fetchComptes();
+    this.fetchComptes(); 
   },
   methods: {
     fetchComptes() {
       compteService.findAll()
         .then(response => {
-          // Assuming response.data is the array of comptes
-          this.comptes = response.data;
-          console.log('Comptes loaded:', this.comptes);  // Check the data in the console
+          this.comptes = response.data; 
+          console.log('Comptes loaded:', this.comptes); 
         })
         .catch(err => {
-          console.error('Error fetching comptes:', err);  // Log any error that occurs
+          console.error('Error fetching comptes:', err);
         });
     },
-    deleteCompte(id) {
-      compteService.delete(id).then(() => {
-        this.fetchComptes();  // Reload the list of comptes after deletion
-      });
+    confirmDelete(rib) {
+      this.compteToDelete = rib; // Store the RIB of the account to delete
+      this.$refs.confirmDeleteModal.open(); // Open the confirmation modal
     },
-    searchAccounts() {
-      compteService.search(this.searchKey).then(response => {
-        this.comptes = response.data;
-      });
+    deleteConfirmed() {
+      if (!this.compteToDelete) return;
+
+      compteService.delete(this.compteToDelete)
+        .then(() => {
+          this.fetchComptes(); // Reload the accounts after deletion
+          this.$refs.confirmDeleteModal.close(); // Close the confirmation modal
+          this.compteToDelete = null; // Clear the temporary RIB
+        })
+        .catch(error => {
+          console.error('Error deleting account:', error);
+          this.$refs.confirmDeleteModal.close(); // Close the modal even on error
+        });
     },
     editCompte(id) {
-      this.$router.push({ name: 'EditCompte', params: { id } }); // Navigate to edit page
+      this.$router.push({ name: 'EditCompte', params: { id } });
     },
   },
 };
 </script>
-

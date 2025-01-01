@@ -4,20 +4,27 @@ const apiClient = axios.create({
   baseURL: 'http://localhost:8080/api/clients',
   headers: {
     'Content-Type': 'application/json',
+
   },
 });
 
 export default {
-  async findAll() {
-    try {
-            const response = await apiClient.get() // Ensure this returns the list of comptes
-                ;
-            console.log('response.data', response.data); // Log the response data
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching comptes:', error); // Log the error for better debugging
-            throw error;
-        }
+  findAll() {
+    return apiClient.get('');
   },
-  
+  findById(id) {
+    return apiClient.get(`/${id}`);
+  },
+  findLinkedComptes(id) {
+    return apiClient.get(`/${id}/comptes`); 
+  },
+  save(client) {
+    return apiClient.post('/save', client);
+  },
+  update(id, client) {
+    return apiClient.put(`/${id}`, client);
+  },
+  delete(id) {
+    return apiClient.delete(`/${id}`);
+  },
 };

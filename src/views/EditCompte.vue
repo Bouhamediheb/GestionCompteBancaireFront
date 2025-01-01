@@ -3,7 +3,6 @@
     <h1 class="mb-4">{{ isEditMode ? 'Edit' : 'Create' }} Account</h1>
     <form @submit.prevent="submitForm" class="border p-4 rounded shadow-sm">
       
-      <!-- RIB Input -->
       <div class="mb-3">
         <label for="rib" class="form-label">RIB:</label>
         <input
@@ -16,7 +15,6 @@
         />
       </div>
       
-      <!-- Solde Input -->
       <div class="mb-3">
         <label for="solde" class="form-label">Solde:</label>
         <input
@@ -29,7 +27,6 @@
         />
       </div>
 
-      <!-- Submit Button -->
       <div class="text-center">
         <button type="submit" class="btn btn-primary">
           {{ isEditMode ? 'Update Account' : 'Create Account' }}
