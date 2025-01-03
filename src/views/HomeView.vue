@@ -13,6 +13,9 @@
             <li>
               <router-link to="/comptes" class="btn btn-primary mt-2">View Accounts</router-link>
             </li>
+            <li>
+              <button @click="logout" class="btn btn-danger">Logout</button>
+            </li>
           </ul>
         </div>
       </div>
@@ -22,7 +25,16 @@
   <script>
   export default {
     name: 'HomeView',
+    methods: {
+      logout() {
+      // Remove the login state (e.g., the flag or token) from localStorage
+      localStorage.removeItem('isLoggedIn');
+      // Redirect the user to the login page
+      this.$router.push('/login');
+    }
+    }
   };
+
   </script>
   
   <style scoped>
