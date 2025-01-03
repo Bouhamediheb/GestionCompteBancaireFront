@@ -9,7 +9,6 @@ import HomeView from '../views/HomeView.vue';
 import AddClient from '../views/AddClient.vue';
 import Login from '../views/Login.vue';
 
-// Define the routes
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
   { path: '/add-client', name: 'AddClient', component: AddClient },

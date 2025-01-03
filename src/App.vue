@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Header Section -->
     <header class="bg-dark text-white p-3">
       <div class="container d-flex justify-content-between align-items-center">
         <h1 class="mb-0">Bank Management System</h1>
@@ -14,12 +13,10 @@
       </div>
     </header>
 
-    <!-- Main Content Section -->
     <main class="container mt-4">
       <router-view />
     </main>
 
-    <!-- Footer Section -->
     <footer class="bg-dark text-white py-3 mt-5">
       <div class="container text-center">
         <p class="mb-0">&copy; Projet Spring Boot -- 2024 </p>

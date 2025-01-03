@@ -71,30 +71,26 @@ export default {
     }
   },
   methods: {
-    // Fetch client data based on the provided ID from the route parameters
     fetchClient(id) {
       clientService.findById(id)
         .then(response => {
-          this.client = response.data; // Set the client data into the local state
+          this.client = response.data; 
         })
         .catch(error => {
           console.error('Error fetching client:', error);
         });
     },
     
-    // Handle client update by sending the updated data to the backend
     updateClient() {
       clientService.update(this.client.id, this.client)
         .then(() => {
-          // Show the success modal after updating the client
+         
           this.$refs.updatedClientAccount.open();
           
-          // Close the modal after 2 seconds and redirect to the clients list
           setTimeout(() => {
             this.$refs.updatedClientAccount.close();
           }, 2000);
           
-          // Redirect to the clients list after the modal closes
           setTimeout(() => {
             this.$router.push({ name: 'ListClients' });
           }, 2500);

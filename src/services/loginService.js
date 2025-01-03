@@ -11,9 +11,7 @@ export default {
   login(login) {
     return apiClient.post('', login).then(response => {
       if (response.status === 200) {
-        // Assuming the API sends a token on successful login
-        localStorage.setItem('isLoggedIn', true); // Save login state to localStorage
-        // You can also save a token: localStorage.setItem('token', response.data.token);
+        localStorage.setItem('isLoggedIn', true); 
       }
       return response;
     });

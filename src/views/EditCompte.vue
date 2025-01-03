@@ -3,7 +3,6 @@
     <h1 class="mb-4">Edit Account</h1>
     <form @submit.prevent="submitForm" class="border p-4 rounded shadow-sm">
       
-      <!-- RIB Field -->
       <div class="mb-3">
         <label for="rib" class="form-label">RIB:</label>
         <input
@@ -16,7 +15,6 @@
         />
       </div>
 
-      <!-- Solde Field -->
       <div class="mb-3">
         <label for="solde" class="form-label">Solde:</label>
         <input
@@ -29,7 +27,6 @@
         />
       </div>
 
-      <!-- Client Selection (if needed in edit mode) -->
       <div class="mb-3" >
         <label for="client" class="form-label">Select Client:</label>
         <select v-model="compte.client" class="form-select" id="client" required disabled>
@@ -39,7 +36,6 @@
         </select>
       </div>
 
-      <!-- Submit Button -->
       <div class="text-center">
         <button type="submit" class="btn btn-primary">
           {{ isEditMode ? 'Update Account' : 'Create Account' }}
@@ -47,7 +43,6 @@
       </div>
     </form>
 
-    <!-- Success Modal -->
     <sweet-modal icon="success" ref="updatedCompte">
       <div class="mt-5">
         Account updated successfully!
@@ -60,7 +55,7 @@
 import compteService from '../services/compteService';
 import clientService from '../services/clientService';
 import { SweetModal } from 'sweet-modal-vue-3';
-import Compte from '../models/Compte'; // Import the Compte class if needed
+import Compte from '../models/Compte';
 
 export default {
   components: {
@@ -68,23 +63,23 @@ export default {
   },
   data() {
     return {
-      compte: new Compte(null, 0, null),  // Initialize a Compte object
-      clients: [],  // List of clients to select from
-      isEditMode: false,  // Flag to determine if we're editing or creating
+      compte: new Compte(null, 0, null),
+      clients: [],
+      isEditMode: false,
     };
   },
   created() {
     const id = this.$route.params.id;
     
-      this.fetchCompte(id);  // Fetch the account data for editing
+      this.fetchCompte(id);
     
-    this.fetchClients(); // Fetch clients for selection (if creating)
+    this.fetchClients();
   },
   methods: {
     fetchClients() {
       clientService.findAll()
         .then(response => {
-          this.clients = response.data;  // Load clients to populate the selection
+          this.clients = response.data;
         })
         .catch(error => {
           console.error('Error fetching clients:', error);
@@ -93,7 +88,7 @@ export default {
     fetchCompte(id) {
       compteService.findById(id)
         .then(response => {
-          this.compte = response.data;  // Populate the form with existing data
+          this.compte = response.data;
         })
         .catch(error => {
           console.error('Error fetching compte:', error);
@@ -101,7 +96,6 @@ export default {
     },
     submitForm() {
       if (this.isEditMode) {
-        // If in edit mode, update the account
         compteService.update(this.compte.rib, this.compte)
           .then(() => {
             this.$refs.updatedCompte.open();
@@ -116,7 +110,6 @@ export default {
             console.error('Error updating compte:', error);
           });
       } else {
-        // If in create mode, create a new account
         compteService.save(this.compte)
           .then(() => {
             this.$refs.updatedCompte.open();

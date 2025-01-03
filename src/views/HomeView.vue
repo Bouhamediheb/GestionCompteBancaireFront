@@ -27,9 +27,7 @@
     name: 'HomeView',
     methods: {
       logout() {
-      // Remove the login state (e.g., the flag or token) from localStorage
       localStorage.removeItem('isLoggedIn');
-      // Redirect the user to the login page
       this.$router.push('/login');
     }
     }

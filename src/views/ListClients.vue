@@ -2,12 +2,10 @@
   <div class="container mt-4">
     <h1 class="mb-4">Clients</h1>
     
-    <!-- Add new client Input - navigate to /add-client -->
     <div class="mb-3">
       <router-link to="/add-client" class="btn btn-primary">Créer un nouveau client</router-link>
     </div>
 
-    <!-- Search Input -->
     <div class="mb-3">
       <input
         type="text"
@@ -28,7 +26,6 @@
       </ul>
     </div>
 
-    <!-- Client Listing -->
     <ul v-if="filteredClients.length" class="list-group">
       <li
         v-for="client in filteredClients"
@@ -51,7 +48,6 @@
 
     <p v-else class="text-center mt-4">No clients available.</p>
     
-    <!-- Confirm Deletion Modal -->
     <sweet-modal ref="confirmDeleteModal" :blocking="true">
       <div class="text-center">
         <h5>Are you sure you want to delete this client?</h5>
@@ -62,7 +58,6 @@
       </div>
     </sweet-modal>
     
-    <!-- Success Modal for Deletion -->
     <sweet-modal icon="success" ref="deletedClientAccount">
       <div class="mt-5">
         Client deleted successfully!

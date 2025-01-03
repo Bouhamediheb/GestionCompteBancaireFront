@@ -39,9 +39,9 @@ export default {
   },
   methods: {
     fetchComptes(clientId) {
-      clientService.findLinkedComptes(clientId) // Call the service to fetch linked comptes for the client
+      clientService.findLinkedComptes(clientId)
         .then(response => {
-          this.comptes = response.data;  // Set the fetched comptes data
+          this.comptes = response.data;
           console.log('Fetched comptes:', this.comptes);  
         })
         .catch(error => {

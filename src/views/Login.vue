@@ -32,7 +32,6 @@
           </div>
         </form>
         
-        <!-- Success Modal -->
         <sweet-modal ref="successModal" icon="success" :blocking="true">
           <div class="text-center mt-5 pt-5">
             <h5>Bienvenue !</h5>
@@ -42,7 +41,6 @@
           </div>
         </sweet-modal>
   
-        <!-- Failure Modal -->
         <sweet-modal ref="failureModal" icon="error" :blocking="true">
           <div class="text-center mt-5 pt-5">
             <h5>Login Failed</h5>
@@ -72,23 +70,23 @@
         try {
           const response = await loginService.login(this.user);
           if (response.status === 200) {
-            this.$refs.successModal.open(); // Open success modal
+            this.$refs.successModal.open();
             setTimeout(() => {
-              this.$router.push('/'); // Redirect to home or clients page
+              this.$router.push('/');
             }, 5000);
           } else {
-            this.$refs.failureModal.open(); // Open failure modal if not 200 status
+            this.$refs.failureModal.open();
           }
         } catch (error) {
           console.error('Error logging in:', error);
-          this.$refs.failureModal.open(); // Open failure modal in case of error
+          this.$refs.failureModal.open();
         }
       },
       closeSuccessModal() {
-        this.$refs.successModal.close(); // Close success modal
+        this.$refs.successModal.close();
       },
       closeFailureModal() {
-        this.$refs.failureModal.close(); // Close failure modal
+        this.$refs.failureModal.close();
       }
     },
     components: {
