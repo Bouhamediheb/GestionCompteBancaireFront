@@ -1,7 +1,10 @@
 <template>
   <div class="container mt-4">
     <h1 class="mb-4">Accounts</h1>
-    
+    <div class="mb-3">
+      <router-link to="/add-compte" class="btn btn-primary">Créer un nouveau compte</router-link>
+    </div>
+
     <div class="mb-4">
       <input
         v-model="searchKey"
@@ -33,7 +36,6 @@
     
     <p v-else class="text-center mt-4">No accounts found.</p>
     
-    <!-- Confirmation Modal -->
     <sweet-modal ref="confirmDeleteModal" :blocking="true">
       <div class="text-center">
         <h5>Are you sure you want to delete this account?</h5>
@@ -41,6 +43,12 @@
           <button @click="deleteConfirmed" class="btn btn-danger me-2">Yes, Delete</button>
           <button @click="$refs.confirmDeleteModal.close()" class="btn btn-secondary">Cancel</button>
         </div>
+      </div>
+    </sweet-modal>
+
+    <sweet-modal icon="success" ref="deletedClientCompte">
+      <div class="mt-5">
+        Account deleted successfully!
       </div>
     </sweet-modal>
   </div>
@@ -90,6 +98,9 @@ export default {
     confirmDelete(rib) {
       this.compteToDelete = rib;
       this.$refs.confirmDeleteModal.open();
+      setTimeout(() => {
+            this.$refs.confirmDeleteModal.close();
+          }, 2000);
     },
     deleteConfirmed() {
       if (!this.compteToDelete) return;
@@ -99,6 +110,10 @@ export default {
           this.fetchComptes();
           this.$refs.confirmDeleteModal.close(); 
           this.compteToDelete = null;
+          this.$refs.deletedClientCompte.open();
+          setTimeout(() => {
+            this.$refs.deletedClientCompte.close();
+          }, 2000);
         })
         .catch(error => {
           console.error('Error deleting account:', error);

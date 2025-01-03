@@ -1,20 +1,22 @@
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4">{{ isEditMode ? 'Edit' : 'Create' }} Account</h1>
+    <h1 class="mb-4">Edit Account</h1>
     <form @submit.prevent="submitForm" class="border p-4 rounded shadow-sm">
       
+      <!-- RIB Field -->
       <div class="mb-3">
         <label for="rib" class="form-label">RIB:</label>
         <input
           v-model="compte.rib"
           id="rib"
           class="form-control"
-          :disabled="isEditMode"
+          disabled
           placeholder="Enter RIB"
           required
         />
       </div>
-      
+
+      <!-- Solde Field -->
       <div class="mb-3">
         <label for="solde" class="form-label">Solde:</label>
         <input
@@ -27,53 +29,109 @@
         />
       </div>
 
+      <!-- Client Selection (if needed in edit mode) -->
+      <div class="mb-3" >
+        <label for="client" class="form-label">Select Client:</label>
+        <select v-model="compte.client" class="form-select" id="client" required disabled>
+          <option v-for="client in clients" :key="client.id" :value="client">
+            {{ client.nom }} {{ client.prenom }} (ID: {{ client.id }})
+          </option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
       <div class="text-center">
         <button type="submit" class="btn btn-primary">
           {{ isEditMode ? 'Update Account' : 'Create Account' }}
         </button>
       </div>
     </form>
+
+    <!-- Success Modal -->
+    <sweet-modal icon="success" ref="updatedCompte">
+      <div class="mt-5">
+        Account updated successfully!
+      </div>
+    </sweet-modal>
   </div>
 </template>
 
-  <script>
-  import compteService from '../services/compteService';
-  
-  export default {
-    data() {
-      return {
-        compte: {
-          rib: '',
-          solde: '',
-        },
-        isEditMode: false,
-      };
+<script>
+import compteService from '../services/compteService';
+import clientService from '../services/clientService';
+import { SweetModal } from 'sweet-modal-vue-3';
+import Compte from '../models/Compte'; // Import the Compte class if needed
+
+export default {
+  components: {
+    SweetModal,
+  },
+  data() {
+    return {
+      compte: new Compte(null, 0, null),  // Initialize a Compte object
+      clients: [],  // List of clients to select from
+      isEditMode: false,  // Flag to determine if we're editing or creating
+    };
+  },
+  created() {
+    const id = this.$route.params.id;
+    
+      this.fetchCompte(id);  // Fetch the account data for editing
+    
+    this.fetchClients(); // Fetch clients for selection (if creating)
+  },
+  methods: {
+    fetchClients() {
+      clientService.findAll()
+        .then(response => {
+          this.clients = response.data;  // Load clients to populate the selection
+        })
+        .catch(error => {
+          console.error('Error fetching clients:', error);
+        });
     },
-    created() {
-      const id = this.$route.params.id;
-      if (id) {
-        this.isEditMode = true;
-        this.fetchCompte(id);
+    fetchCompte(id) {
+      compteService.findById(id)
+        .then(response => {
+          this.compte = response.data;  // Populate the form with existing data
+        })
+        .catch(error => {
+          console.error('Error fetching compte:', error);
+        });
+    },
+    submitForm() {
+      if (this.isEditMode) {
+        // If in edit mode, update the account
+        compteService.update(this.compte.rib, this.compte)
+          .then(() => {
+            this.$refs.updatedCompte.open();
+            setTimeout(() => {
+              this.$refs.updatedCompte.close();
+            }, 2000);
+            setTimeout(() => {
+              this.$router.push({ name: 'ListComptes' });
+            }, 2000);
+          })
+          .catch(error => {
+            console.error('Error updating compte:', error);
+          });
+      } else {
+        // If in create mode, create a new account
+        compteService.save(this.compte)
+          .then(() => {
+            this.$refs.updatedCompte.open();
+            setTimeout(() => {
+              this.$refs.updatedCompte.close();
+            }, 2000);
+            setTimeout(() => {
+              this.$router.push({ name: 'ListComptes' });
+            }, 2000);
+          })
+          .catch(error => {
+            console.error('Error creating compte:', error);
+          });
       }
     },
-    methods: {
-      fetchCompte(id) {
-        compteService.findById(id).then(response => {
-          this.compte = response.data;
-        });
-      },
-      submitForm() {
-        if (this.isEditMode) {
-          compteService.update(this.compte.rib, this.compte).then(() => {
-            this.$router.push({ name: 'ListComptes' });
-          });
-        } else {
-          compteService.save(this.compte).then(() => {
-            this.$router.push({ name: 'ListComptes' });
-          });
-        }
-      },
-    },
-  };
-  </script>
-  
+  },
+};
+</script>

@@ -41,20 +41,27 @@
         <button type="submit" class="btn btn-primary">Update Client</button>
       </div>
     </form>
+    <sweet-modal icon="success" ref="updatedClientAccount">
+      <div class="mt-5">
+        Client updated successfully!
+      </div>
+    </sweet-modal>
   </div>
 </template>
 
 <script>
 import clientService from '../services/clientService';
+import { SweetModal } from "sweet-modal-vue-3";
+import Client from '../models/Client';
+
 
 export default {
+  components: {
+    SweetModal,
+  },
   data() {
     return {
-      client: {
-        cin: '',
-        nom: '',
-        prenom: '',
-      },
+      client: new Client(null, '', '', ''),
     };
   },
   created() {
@@ -64,19 +71,33 @@ export default {
     }
   },
   methods: {
+    // Fetch client data based on the provided ID from the route parameters
     fetchClient(id) {
       clientService.findById(id)
         .then(response => {
-          this.client = response.data;
+          this.client = response.data; // Set the client data into the local state
         })
         .catch(error => {
           console.error('Error fetching client:', error);
         });
     },
+    
+    // Handle client update by sending the updated data to the backend
     updateClient() {
       clientService.update(this.client.id, this.client)
         .then(() => {
-          this.$router.push({ name: 'ListClients' });
+          // Show the success modal after updating the client
+          this.$refs.updatedClientAccount.open();
+          
+          // Close the modal after 2 seconds and redirect to the clients list
+          setTimeout(() => {
+            this.$refs.updatedClientAccount.close();
+          }, 2000);
+          
+          // Redirect to the clients list after the modal closes
+          setTimeout(() => {
+            this.$router.push({ name: 'ListClients' });
+          }, 2500);
         })
         .catch(error => {
           console.error('Error updating client:', error);

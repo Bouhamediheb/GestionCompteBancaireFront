@@ -27,4 +27,7 @@ export default {
   delete(id) {
     return apiClient.delete(`/${id}`);
   },
+  search(query) {
+    return apiClient.get(`/search`, { params: { name: query } });
+  },
 };
