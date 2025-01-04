@@ -13,9 +13,7 @@
             <li>
               <router-link to="/comptes" class="btn btn-primary mt-2">View Accounts</router-link>
             </li>
-            <li>
-              <button @click="logout" class="btn btn-danger">Logout</button>
-            </li>
+           
           </ul>
         </div>
       </div>
@@ -25,12 +23,7 @@
   <script>
   export default {
     name: 'HomeView',
-    methods: {
-      logout() {
-      localStorage.removeItem('isLoggedIn');
-      this.$router.push('/login');
-    }
-    }
+    
   };
 
   </script>

@@ -27,6 +27,13 @@ export default {
   delete(rib) {
     return apiClient.delete(`/${rib}`);
   },
+  deleteAjax(rib) {
+    console
+    return apiClient.post('/delete-ajax', null, {
+      params: { rib: rib },
+    });
+  },
+  
   update(rib, compte) {
     return apiClient.put(`/${rib}`, compte);
   },

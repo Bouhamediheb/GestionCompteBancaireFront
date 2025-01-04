@@ -50,7 +50,7 @@ export default {
   },
   data() {
     return {
-      compte: new Compte(null, 0, null),  // Initializing with an empty compte object
+      compte: new Compte(null, 0, null),
       clients: [],
     };
   },

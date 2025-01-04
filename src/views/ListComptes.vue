@@ -29,7 +29,10 @@
         
         <div>
           <button @click="editCompte(compte.rib)" class="btn btn-warning btn-sm me-2">Edit</button>
+          
           <button @click="confirmDelete(compte.rib)" class="btn btn-danger btn-sm me-2">Delete</button>
+
+          <button @click="deleteCompteAjax(compte.rib)" class="btn btn-danger btn-sm">Delete (AJAX)</button>
         </div>
       </li>
     </ul>
@@ -98,10 +101,8 @@ export default {
     confirmDelete(rib) {
       this.compteToDelete = rib;
       this.$refs.confirmDeleteModal.open();
-      setTimeout(() => {
-            this.$refs.confirmDeleteModal.close();
-          }, 2000);
     },
+
     deleteConfirmed() {
       if (!this.compteToDelete) return;
 
@@ -120,8 +121,24 @@ export default {
           this.$refs.confirmDeleteModal.close(); 
         });
     },
-    editCompte(id) {
-      this.$router.push({ name: 'EditCompte', params: { id } });
+
+    deleteCompteAjax(rib) {
+      console.log('Deleting account via AJAX:', rib);
+      compteService.deleteAjax(rib)
+        .then(() => {
+          this.fetchComptes();
+          this.$refs.deletedClientCompte.open();
+          setTimeout(() => {
+            this.$refs.deletedClientCompte.close();
+          }, 2000);
+        })
+        .catch(error => {
+          console.error('Error deleting account via AJAX:', error);
+        });
+    },
+
+    editCompte(rib) {
+      this.$router.push({ name: 'EditCompte', params: { rib } });
     },
   },
 };

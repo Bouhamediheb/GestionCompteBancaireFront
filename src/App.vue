@@ -5,9 +5,13 @@
         <h1 class="mb-0">Bank Management System</h1>
         <nav>
           <ul class="list-unstyled d-flex mb-0">
-            <li class="me-3"><router-link to="/" class="text-white text-decoration-none">Home</router-link></li>
-            <li class="me-3"><router-link to="/clients" class="text-white text-decoration-none">Clients</router-link></li>
-            <li><router-link to="/comptes" class="text-white text-decoration-none">Accounts</router-link></li>
+            <li class="me-3"><router-link to="/" class="btn btn-primary">Home</router-link></li>
+            <li class="me-3"><router-link to="/clients" class="btn btn-primary">Clients</router-link></li>
+            <li><router-link to="/comptes" class="btn btn-primary">Accounts</router-link></li>
+            <li class="ms-3">
+              <button @click="logout" class="btn btn-danger" v-if = "isLoggedIn"
+               >Logout</button>
+            </li>
           </ul>
         </nav>
       </div>
@@ -30,11 +34,21 @@
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      isLoggedIn: localStorage.getItem('isLoggedIn')
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('isLoggedIn');
+      this.$router.push('/login');
+    }
+  }
 };
 </script>
 
 <style scoped>
-/* Add some styling for the header and footer */
 header {
   position: sticky;
   top: 0;
