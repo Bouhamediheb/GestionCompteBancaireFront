@@ -17,7 +17,17 @@
           <strong>Solde:</strong> {{ compte.solde }} TND
         </div>
       </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong></strong>
+        </div>
+        <div>
+          <strong>Total:</strong> {{ totalMoney }} TND
+        </div>
+      </li>
     </ul>
+    
+
     
     <p v-else class="text-center mt-4">No comptes linked to this client.</p>
   </div>
@@ -31,6 +41,7 @@ export default {
   data() {
     return {
       comptes: [], 
+      totalMoney : 0
     };
   },
   created() {
@@ -42,6 +53,7 @@ export default {
       clientService.findLinkedComptes(clientId)
         .then(response => {
           this.comptes = response.data;
+          this.totalMoney = this.comptes.reduce((acc, compte) => acc + compte.solde, 0);
           console.log('Fetched comptes:', this.comptes);  
         })
         .catch(error => {

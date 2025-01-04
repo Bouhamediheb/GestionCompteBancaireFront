@@ -39,6 +39,11 @@ export default {
       isLoggedIn: localStorage.getItem('isLoggedIn')
     };
   },
+  watch: {
+    $route(to, from) {
+      this.isLoggedIn = localStorage.getItem('isLoggedIn');
+    }
+  },
   methods: {
     logout() {
       localStorage.removeItem('isLoggedIn');
@@ -47,6 +52,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 header {

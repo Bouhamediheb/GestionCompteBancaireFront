@@ -69,11 +69,16 @@ export default {
     };
   },
   created() {
-    const id = this.$route.params.id;
+    const rib = this.$route.params.rib;
+
+
     
-      this.fetchCompte(id);
-    
-    this.fetchClients();
+      this.fetchCompteByRib(rib);
+
+      this.fetchClients();
+
+
+
   },
   methods: {
     fetchClients() {
@@ -85,8 +90,9 @@ export default {
           console.error('Error fetching clients:', error);
         });
     },
-    fetchCompte(id) {
-      compteService.findById(id)
+    fetchCompteByRib(rib) {
+      console.log(rib);
+      compteService.findById(rib)
         .then(response => {
           this.compte = response.data;
         })

@@ -15,7 +15,7 @@ const routes = [
   { path: '/clients/edit/:id', name: 'EditClient', component: EditClient },
   { path: '/clients', name: 'ListClients', component: ListClients },
   { path: '/comptes', name: 'ListComptes', component: ListComptes },
-  { path: '/edit-compte/:id?', name: 'EditCompte', component: EditCompte },
+  { path: '/edit-compte/:rib?', name: 'EditCompte', component: EditCompte },
   { path: '/add-compte', name: 'AddCompte', component: AddCompte },
   { path: '/comptes/:id', name: 'LinkedComptes', component: LinkedComptes },
   { path: '/login', name: 'Login', component: Login },
