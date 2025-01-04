@@ -15,7 +15,7 @@
     </div>
     
     <ul class="list-group" v-if="filteredComptes.length">
-      <li v-for="compte in filteredComptes" :key="compte.rib" class="list-group-item d-flex justify-content-between align-items-center">
+      <li v-for="compte in filteredComptes" :key="compte.rib" class="list-group-item d-flex justify-content-between align-items-center" :id="compte.rib">
         <div>
           <strong>RIB:</strong> {{ compte.rib }}
           <br />
@@ -33,7 +33,7 @@
           <button @click="confirmDelete(compte.rib)" class="btn btn-danger btn-sm me-2">Delete</button>
 
           <button @click="deleteCompteAjax(compte.rib)" class="btn btn-danger btn-sm">Delete (AJAX)</button>
-        </div>
+      </div>
       </li>
     </ul>
     
@@ -60,6 +60,7 @@
 <script>
 import compteService from '../services/compteService';
 import { SweetModal } from 'sweet-modal-vue-3';
+import $ from 'jquery'
 
 export default {
   components: {
@@ -126,7 +127,8 @@ export default {
       console.log('Deleting account via AJAX:', rib);
       compteService.deleteAjax(rib)
         .then(() => {
-          this.fetchComptes();
+          //remove the row with jquery
+          $(`#${rib}`).remove();
           this.$refs.deletedClientCompte.open();
           setTimeout(() => {
             this.$refs.deletedClientCompte.close();
