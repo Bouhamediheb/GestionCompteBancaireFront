@@ -46,21 +46,21 @@
       </li>
     </ul>
 
-    <p v-else class="text-center mt-4">No clients available.</p>
+    <p v-else class="text-center mt-4">Aucun client trouvé !</p>
     
     <sweet-modal ref="confirmDeleteModal" :blocking="true">
       <div class="text-center">
-        <h5>Are you sure you want to delete this client?</h5>
+        <h5>Voulez-vous vraiment supprimer ce client ?</h5>
         <div class="mt-3">
-          <button @click="deleteConfirmed" class="btn btn-danger me-2">Yes, Delete</button>
-          <button @click="$refs.confirmDeleteModal.close()" class="btn btn-secondary">Cancel</button>
+          <button @click="deleteConfirmed" class="btn btn-danger me-2">Supprimer</button>
+          <button @click="$refs.confirmDeleteModal.close()" class="btn btn-secondary">Annuler</button>
         </div>
       </div>
     </sweet-modal>
     
     <sweet-modal icon="success" ref="deletedClientAccount">
       <div class="mt-5">
-        Client deleted successfully!
+        Client a été supprimé avec succès !
       </div>
     </sweet-modal>
   </div>

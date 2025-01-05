@@ -1,39 +1,39 @@
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4">Create Client</h1>
+    <h1 class="mb-4">Créer un client</h1>
     <form @submit.prevent="createClient" class="border p-4 rounded shadow-sm">
       <div class="mb-3">
-        <label for="cin" class="form-label">CIN:</label>
+        <label for="cin" class="form-label">CIN :</label>
         <input
           v-model="client.cin"
           id="cin"
           class="form-control"
-          placeholder="Enter Client CIN"
+          placeholder="Entrez le CIN du client"
           required
         />
       </div>
       <div class="mb-3">
-        <label for="nom" class="form-label">First Name:</label>
+        <label for="nom" class="form-label">Prénom :</label>
         <input
           v-model="client.nom"
           id="nom"
           class="form-control"
-          placeholder="Enter First Name"
+          placeholder="Entrez le prénom"
           required
         />
       </div>
       <div class="mb-3">
-        <label for="prenom" class="form-label">Last Name:</label>
+        <label for="prenom" class="form-label">Nom :</label>
         <input
           v-model="client.prenom"
           id="prenom"
           class="form-control"
-          placeholder="Enter Last Name"
+          placeholder="Entrez le nom"
           required
         />
       </div>
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">Create Client</button>
+        <button type="submit" class="btn btn-primary">Créer le client</button>
       </div>
     </form>
     <sweet-modal ref="successModal" icon="success">
@@ -43,6 +43,7 @@
     </sweet-modal>
   </div>
 </template>
+
 <script>
 import Client from '../models/Client';
 import clientService from '../services/clientService';

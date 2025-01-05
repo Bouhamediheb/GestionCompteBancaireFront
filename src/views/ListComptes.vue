@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4">Accounts</h1>
+    <h1 class="mb-4">Comptes</h1>
     <div class="mb-3">
       <router-link to="/add-compte" class="btn btn-primary">Créer un nouveau compte</router-link>
     </div>
@@ -10,7 +10,7 @@
         v-model="searchKey"
         class="form-control"
         type="text"
-        placeholder="Search accounts by client name"
+        placeholder="Rechercher par nom du client..."
       />
     </div>
     
@@ -28,30 +28,30 @@
         </div>
         
         <div>
-          <button @click="editCompte(compte.rib)" class="btn btn-warning btn-sm me-2">Edit</button>
+          <button @click="editCompte(compte.rib)" class="btn btn-warning btn-sm me-2">Modifier</button>
           
-          <button @click="confirmDelete(compte.rib)" class="btn btn-danger btn-sm me-2">Delete</button>
+          <button @click="confirmDelete(compte.rib)" class="btn btn-danger btn-sm me-2">Supprimer</button>
 
-          <button @click="deleteCompteAjax(compte.rib)" class="btn btn-danger btn-sm">Delete (AJAX)</button>
+          <button @click="deleteCompteAjax(compte.rib)" class="btn btn-danger btn-sm">Supprimer(AJAX)</button>
       </div>
       </li>
     </ul>
     
-    <p v-else class="text-center mt-4">No accounts found.</p>
+    <p v-else class="text-center mt-4">Aucun compte trouvé </p>
     
     <sweet-modal ref="confirmDeleteModal" :blocking="true">
       <div class="text-center">
-        <h5>Are you sure you want to delete this account?</h5>
+        <h5>Voulez-vous vraiment supprimer ce compte ?</h5>
         <div class="mt-3">
-          <button @click="deleteConfirmed" class="btn btn-danger me-2">Yes, Delete</button>
-          <button @click="$refs.confirmDeleteModal.close()" class="btn btn-secondary">Cancel</button>
+          <button @click="deleteConfirmed" class="btn btn-danger me-2">Supprimer</button>
+          <button @click="$refs.confirmDeleteModal.close()" class="btn btn-secondary">Annuler</button>
         </div>
       </div>
     </sweet-modal>
 
     <sweet-modal icon="success" ref="deletedClientCompte">
       <div class="mt-5">
-        Account deleted successfully!
+        <h5>Compte supprimé avec succès !</h5>
       </div>
     </sweet-modal>
   </div>

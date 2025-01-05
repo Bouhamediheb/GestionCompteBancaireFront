@@ -1,17 +1,27 @@
 <template>
   <div>
-    <header class="bg-dark text-white p-3">
+    <header class="bg-dark text-white p-3" v-if="isLoggedIn">
       <div class="container d-flex justify-content-between align-items-center">
-        <h1 class="mb-0">Bank Management System</h1>
+        <h3 class="mb-0"> Gestion des Comptes Bancaires</h3>
         <nav>
           <ul class="list-unstyled d-flex mb-0">
-            <li class="me-3"><router-link to="/" class="btn btn-primary">Home</router-link></li>
+            <li class="me-3"><router-link to="/" class="btn btn-primary">Accueil</router-link></li>
             <li class="me-3"><router-link to="/clients" class="btn btn-primary">Clients</router-link></li>
-            <li><router-link to="/comptes" class="btn btn-primary">Accounts</router-link></li>
+            <li><router-link to="/comptes" class="btn btn-primary">Comptes</router-link></li>
             <li class="ms-3">
-              <button @click="logout" class="btn btn-danger" v-if = "isLoggedIn"
-               >Logout</button>
+              <button @click="logout" class="btn btn-danger" v-if="isLoggedIn">Déconnexion</button>
             </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <header class="bg-dark text-white p-3" v-else>
+      <div class="container d-flex justify-content-between align-items-center">
+        <h3 class="mb-0"> Gestion des Comptes Bancaires</h3>
+        <nav>
+          <ul class="list-unstyled d-flex mb-0">
+            <li><router-link to="/login" class="btn btn-primary">Connexion</router-link></li>
           </ul>
         </nav>
       </div>
@@ -52,7 +62,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 header {

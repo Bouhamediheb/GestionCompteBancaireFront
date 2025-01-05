@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4">Edit Client</h1>
+    <h1 class="mb-4">Mettre à jour le client</h1>
     <form @submit.prevent="updateClient" class="border p-4 rounded shadow-sm">
       
       <div class="mb-3">
@@ -38,12 +38,12 @@
       </div>
 
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">Update Client</button>
+        <button type="submit" class="btn btn-primary">Mettre à jour le client</button>
       </div>
     </form>
     <sweet-modal icon="success" ref="updatedClientAccount">
       <div class="mt-5">
-        Client updated successfully!
+        Client a été mis à jour avec succès !
       </div>
     </sweet-modal>
   </div>

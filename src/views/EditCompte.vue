@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4">Edit Account</h1>
-    <form @submit.prevent="submitForm" class="border p-4 rounded shadow-sm">
+    <h1 class="mb-4">Mettre à jour le compte</h1>
+        <form @submit.prevent="submitForm" class="border p-4 rounded shadow-sm">
       
       <div class="mb-3">
         <label for="rib" class="form-label">RIB:</label>
@@ -28,7 +28,7 @@
       </div>
 
       <div class="mb-3" >
-        <label for="client" class="form-label">Select Client:</label>
+        <label for="client" class="form-label">Client:</label>
         <select v-model="compte.client" class="form-select" id="client" required disabled>
           <option v-for="client in clients" :key="client.id" :value="client">
             {{ client.nom }} {{ client.prenom }} (ID: {{ client.id }})
@@ -38,14 +38,14 @@
 
       <div class="text-center">
         <button type="submit" class="btn btn-primary">
-          {{ isEditMode ? 'Update Account' : 'Create Account' }}
+          Mettre à jour le compte
         </button>
       </div>
     </form>
 
     <sweet-modal icon="success" ref="updatedCompte">
       <div class="mt-5">
-        Account updated successfully!
+        Le compte a été mis à jour avec succès !
       </div>
     </sweet-modal>
   </div>

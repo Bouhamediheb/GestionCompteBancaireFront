@@ -1,21 +1,8 @@
 <template>
     <div class="home-view text-center">
       <div class="container">
-        <h1>Welcome to the Bank Management System</h1>
-        <p class="lead">Your one-stop solution to manage clients and accounts.</p>
-        
-        <div class="mt-4">
-          <p>Get started by exploring the following:</p>
-          <ul class="list-unstyled">
-            <li>
-              <router-link to="/clients" class="btn btn-primary">Manage Clients</router-link>
-            </li>
-            <li>
-              <router-link to="/comptes" class="btn btn-primary mt-2">View Accounts</router-link>
-            </li>
-           
-          </ul>
-        </div>
+        <h1> Bienvenue à notre application de gestion de clients et de comptes bancaires</h1>
+        <p class="lead">Vous pouvez gérer vos clients et leurs comptes bancaires en toute simplicité.</p>        
       </div>
     </div>
   </template>

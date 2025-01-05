@@ -1,10 +1,11 @@
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4">Comptes Linked to Client</h1>
+    <h1 class="mb-4">Comptes courants du client</h1>
     
     <div class="mb-3">
       <button @click="$router.push({ name: 'ListClients' })" class="btn btn-secondary">
-        Back to Clients
+        <i class="bi bi-arrow-left"></i> Retour
+
       </button>
     </div>
 
@@ -22,14 +23,14 @@
           <strong></strong>
         </div>
         <div>
-          <strong>Total:</strong> {{ totalMoney }} TND
+          <strong>Totale:</strong> {{ totalMoney }} TND
         </div>
       </li>
     </ul>
     
 
     
-    <p v-else class="text-center mt-4">No comptes linked to this client.</p>
+    <p v-else class="text-center mt-4">Aucun compte lié à ce client.</p>
   </div>
 </template>
 
